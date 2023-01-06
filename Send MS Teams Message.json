@@ -1,0 +1,75 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_022NEGD3W8ILF5kOTFym5fcozMl0DtRtpNM",
+    "name": "Send MS Teams Message",
+    "title": "Send MS Teams Message",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "MS Teams Message",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_022NEH5CV0VCJ4rc1KrSrqeUl7BN9ybGNP9",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "webhook_url",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_022NEHAQQC7QO2rVcsdphi1QjD6ApXb7i77",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Send MS Teams Message",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "no_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_022NEGJQ25WQI7H22I2Rw3k77Lm93wVLa2s",
+        "name": "Execute Python Script",
+        "title": "Execute Python Script",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Execute Python Script",
+          "script": "from pip._vendor import requests\nimport pip._vendor.requests\nimport json\nimport datetime\nimport sys\nwebhook_url=sys.argv[1]\nmessage=sys.argv[2]\n\ncurrtime = datetime.datetime.now()\ncurrent_time = str(currtime)\n\n\ndata = {\n    \"@type\": \"MessageCard\",\n    \"@context\": \"http://schema.org/extensions\",\n    \"themeColor\": \"0076D7\",\n    \"summary\": \"IP was added to feed\",\n    \"sections\": [{\n        \"activityTitle\": \"IP was added to feed\",\n        \"activityImage\": \"https://www.clipartkey.com/mpngs/m/131-1314662_green-check-mark-image-22-buy-clip-art.png\",\n        \"facts\": [{\n            \"name\": \"Message\",\n            \"value\": message\n        }]\n}]\n}\n\nr = requests.post(webhook_url, data=json.dumps(data), headers={'Content-Type': 'application/json'})",
+          "script_arguments": [
+            "$workflow.definition_workflow_022NEGD3W8ILF5kOTFym5fcozMl0DtRtpNM.input.variable_workflow_022NEHAQQC7QO2rVcsdphi1QjD6ApXb7i77$",
+            "$workflow.definition_workflow_022NEGD3W8ILF5kOTFym5fcozMl0DtRtpNM.input.variable_workflow_022NEH5CV0VCJ4rc1KrSrqeUl7BN9ybGNP9$"
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}
