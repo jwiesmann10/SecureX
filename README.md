@@ -6,15 +6,34 @@
 
 ## Setup
 ### 1 - Create Feeds
-> First clean up:
---> Go to Threat Response => Feeds and check that SecureX_Firewall_Private_xxx feeds. If they exist delete all of them.
---> Then you have to do the same with indicators. Go to Indicators go to Source:Private and Delete all Secure_Firewall_SecureX_xxx indicators.
+- First clean up:
+  - Go to Threat Response => Feeds and check that SecureX_Firewall_Private_xxx feeds. If they exist delete all of them.
+  -hen you have to do the same with indicators. Go to Indicators go to Source:Private and Delete all Secure_Firewall_SecureX_xxx indicators.
 
-> Run "0015A-SecureFirewall-BlockObservable-Setup" (Get it from Cisoc GitHub Repo through import in SecX)
+- Run "0015A-SecureFirewall-BlockObservable-Setup" (Get it from Cisoc GitHub Repo through import in SecureX)
 
 ### 2 - Import other Workflows
 Import: 
+- SecureX Incidents - Send Alerts.json
 - Add IP to Feed through Webhook.json
 - Secure Firewall - Block Observable.json
-- SecureX Incidents - Send Alerts.json
 - Send MS Teams Message.json
+
+
+## Explanation Workflows
+### SecureX Incidents - Send Alerts.json
+- Create a Trigger that lets it run all 5-30 minutes
+- Will get all Incidents and Post MS Teams Message with Infos
+
+### Add IP to Feed through Webhook.json
+- Create a Webhook and a Event Listener/Trigger to use in this Workflow
+- Listens to POST Messages (Header: Content-Type:application/json || {"type": "domain,ip,ipv6,sha256,url", "value": "domain.com,a.b.c.d"}
+- Then runs Block Observable.json
+
+
+### Secure Firewall - Block Observable.json
+- Adds the IP, Domain, etc. which it gets form "Add IP to Feed through Webhook.json" to the corresponding Feed 
+
+
+### Send MS Teams Message.json
+- Used to send MS Teams Messages 
